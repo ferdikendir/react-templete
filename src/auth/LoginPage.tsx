@@ -1,8 +1,8 @@
-import { Input, Button, Checkbox } from 'antd';
-import { useState } from 'react';
-import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@hooks';
+import { Button, Checkbox, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material';
+import { IconifyIcon } from '@shared/components';
 
 
 const LoginPage = () => {
@@ -23,13 +23,9 @@ const LoginPage = () => {
 
     const handleLogin = async () => {
 
-        if (!email) {
-            setEmailStatus('error');
-            return;
-        }
-
-        if (!password) {
-            setPasswordStatus('error');
+        if (!email || !password) {
+            setEmailStatus(!email ? 'error' : undefined);
+            setPasswordStatus(!password ? 'error' : undefined);
             return;
         }
 
@@ -39,25 +35,79 @@ const LoginPage = () => {
         await login(email, password);
     };
 
+    const [showPassword, setShowPassword] = React.useState(false);
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
+
+    const handleMouseUpPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
+
 
     return (
         <>
-            <Input placeholder="Username" className='!mb-4' value={email} required status={emailStatus} onChange={(e) => setEmail(e.target.value)} />
+            <TextField
+                id="outlined-error-helper-text"
+                label="Username"
+                variant='outlined'
+                className='w-full h-[80px]'
+                helperText={emailStatus === 'error' ? 'Please enter your username' : ''}
+                value={email}
+                required
+                error={emailStatus === 'error'}
+                onChange={(e) => setEmail(e.target.value)} />
 
-            <Input.Password className='!mb-4' required value={password} status={passwordStatus}
-                placeholder="Password" onChange={(e) => setPassword(e.target.value)}
-                iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-            />
+            <FormControl variant="outlined" className='w-full !mt-4  h-[80px]' >
 
-            <div className='flex flex-row justify-between mb-4'>
-                <Checkbox checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)}>Remember Me</Checkbox>
+                <InputLabel htmlFor="outlined-adornment-password" error={passwordStatus === 'error'}>Password</InputLabel>
 
-                <a onClick={() => navigate('/auth/forgot-password')} className='text-blue-500 cursor-pointer'>Forgot Password?</a>
+                <OutlinedInput
+                    className='w-full'
+                    required
+                    aria-describedby="outlined-weight-helper-text"
+                    value={password}
+                    id="outlined-adornment-password"
+                    error={passwordStatus === 'error'}
+                    type={showPassword ? 'text' : 'password'}
+                    onChange={(e) => setPassword(e.target.value)}
+                    endAdornment={
+                        <InputAdornment position="end">
+                            <IconButton
+                                aria-label={
+                                    showPassword ? 'hide the password' : 'display the password'
+                                }
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                                onMouseUp={handleMouseUpPassword}
+                                edge="end"
+                            >
+                                <IconifyIcon icon={showPassword ? 'ic:twotone-visibility-off' : 'ic:twotone-visibility'} />
+                            </IconButton>
+                        </InputAdornment>
+                    }
+                    label="Password"
+                />
+
+                {passwordStatus === 'error' && <FormHelperText id="outlined-weight-helper-text" error={passwordStatus === 'error'}> Please enter your password</FormHelperText>}
+
+            </FormControl>
+
+            <div className='flex flex-row items-center justify-between'>
+
+                <div className='flex flex-row items-center'>
+                    <Checkbox checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} style={{ color: 'var(--primary)' }} />
+                    <span>Remember Me</span>
+                </div>
+
+                <a onClick={() => navigate('/auth/forgot-password')} className='cursor-pointer' style={{ color: 'var(--primary)' }}>Forgot Password?</a>
 
             </div>
 
-
-            <Button type="primary" className='w-full' onClick={() => handleLogin()}>Login</Button>
+            <Button variant='contained' className='!mt-4 w-full bg-primary !font-bold' onClick={() => handleLogin()}>Login</Button>
 
         </>
     );

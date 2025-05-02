@@ -34,6 +34,10 @@
     background-color: var(--background-card);
 }
 
+.bg-primary {
+    background-color: var(--primary) !important;
+}
+
 .text {
     color: var(--text-color);
 }
