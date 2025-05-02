@@ -1,0 +1,56 @@
+.sidenav {
+
+    --label-display: block;
+
+    &.collapsed {
+        --label-display: none;
+
+        &:hover {
+            --label-display: block;
+        }
+    }
+
+    &__item {
+        color: var(--sidenav-item-color);
+        font: var(--font-title);
+
+        &:hover {
+            color: var(--sidenav-item-color-hover);
+            background-color: var(--sidenav-item-background-hover);
+
+            .sidenav__item-icon {
+                color: var(--sidenav-item-icon-color-hover);
+            }
+        }
+
+        &--active {
+            color: var(--sidenav-item-color-active);
+            background-color: var(--sidenav-item-background-active);
+        }
+
+        &-icon {
+
+            color: var(--sidenav-item-icon-color);
+            width: var(--sidenav-item-icon-width);
+            height: var(--sidenav-item-icon-height);
+            margin-inline-end: var(--sidenav-margin-inline-end);
+
+            &--active {
+                color: var(--sidenav-item-icon-color-active);
+            }
+
+            &:hover {
+                color: var(--sidenav-item-icon-color-hover) !important;
+            }
+        }
+
+        &-label {
+            display: var(--label-display);
+            flex: auto;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 1rem;
+        }
+    }
+}

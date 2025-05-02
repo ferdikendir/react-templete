@@ -1,0 +1,32 @@
+.sidenav {
+    width: var(--sidenav-width);
+    background-color: var(--sidenav-background);
+    transition-duration: 400ms;
+    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+    z-index: 999999;
+
+    .items {
+        height: calc(100vh - var(--toolbar-height));
+    }
+
+    .theme {
+        height: var(--toolbar-height);
+    }
+
+    &.collapsed {
+        --sidenav-margin-inline-end: 0px;
+        width: var(--sidenav-collapsed-width);
+
+        &:hover {
+            --sidenav-margin-inline-end: 16px;
+            position: absolute;
+            width: var(--sidenav-width);
+        }
+    }
+
+
+}
+
+.sidenav-toolbar {
+    height: var(--toolbar-height);
+}

@@ -1,0 +1,11 @@
+.main {
+    width: var(--content-width);
+    position: var(--sidenav-position);
+    margin-left: var(--sidenav-left-margin);
+    background-color: var(--background-base);
+
+    .content {
+        height: calc(100vh - var(--toolbar-height));
+    }
+
+}

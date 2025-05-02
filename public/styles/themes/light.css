@@ -1,0 +1,13 @@
+:root {
+    --sidenav-background: white;
+    --sidenav-item-color: rgba(0, 0, 0, .87);
+    --sidenav-item-color-active: rgba(0, 0, 0, .87);
+    --sidenav-item-color-hover: rgba(0, 0, 0, .87);
+    --sidenav-item-icon-color: #494b74;
+    --sidenav-item-icon-color-hover: #5c77ff;
+    --sidenav-item-icon-color-active: #5c77ff;
+    --sidenav-item-icon-width: 24px;
+    --sidenav-item-icon-height: 24px;
+    --sidenav-item-background-hover: #fafafa;
+    --sidenav-item-background-active: #fafafa;
+}

@@ -1,0 +1,21 @@
+.breadcrumb {
+    height: var(--toolbar-height);
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+
+    &__item {
+
+        color: var(--text-hint);
+
+        &__label {
+            font-size: 14px;
+        }
+
+        &:hover {
+            --tw-text-opacity: 1;
+            color: rgb(92 119 255 / var(--tw-text-opacity, 1));
+        }
+    }
+
+}
