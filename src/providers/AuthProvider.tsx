@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
-import { User } from '@core/api';
+import { User, Response } from '@core/api';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '@contexts';
 
@@ -35,7 +35,7 @@ export const AuthProvider: React.FC<CustomProviderProps> = ({ children }) => {
 
     useEffect(() => {
 
-        localStorage.setItem('user', user.userId ? JSON.stringify(user) : (localStorage.getItem('user') || ''));
+        localStorage.setItem('user', user.systemUserId ? JSON.stringify(user) : (localStorage.getItem('user') || ''));
 
     }, [user]);
 
@@ -50,27 +50,40 @@ export const AuthProvider: React.FC<CustomProviderProps> = ({ children }) => {
                 throw new Error('Username and password are required');
             }
 
-            if (username === 'fkendir' && password === 'fkendir') {
+            fetch('http://localhost:8080/api/auth/login', {
+                body: JSON.stringify({ email: username, password }),
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+            }).then(res => res.json())
+                .then((response: Response<User>) => {
 
-                fetch('/data/user.json').then(res => res.json())
-                    .then((_user: User) => {
-                        setUser(_user);
-                        setPermissions(_user.permissions);
-                    })
-                    .catch(err => console.error('JSON fetch error:', err))
+                    if (!response.success) {
+                        alert(response.resultMessage.message);
+                        return;
+                    }
 
-                setToken('access_token');
-                setRefreshToken('refresh_token');
+                    setUser(response.data);
+                    setPermissions(response.data.permissions);
 
-                const returnUrl = localStorage.getItem('returnUrl');
-                localStorage.removeItem('returnUrl');
+                    if (response.data.token) {
+                        setToken(response.data.token);
+                    }
 
-                setTimeout(() => {
-                    navigate(returnUrl ?? '/');
-                }, 500);
-            }
+                    if (response.data.refreshToken) {
+                        setRefreshToken(response.data.refreshToken);
+                    }
 
+                    const returnUrl = localStorage.getItem('returnUrl');
+                    localStorage.removeItem('returnUrl');
 
+                    setTimeout(() => {
+                        navigate(returnUrl ?? '/');
+                    }, 500)
+                })
+                .catch(err => console.error('JSON fetch error:', err))
 
         } catch (error) {
             console.error('AuthService Login Error:', error);
@@ -101,7 +114,7 @@ export const AuthProvider: React.FC<CustomProviderProps> = ({ children }) => {
 
     const getUser = () => {
 
-        return user.userId ? user : JSON.parse(localStorage.getItem('user') || '{}') as User;
+        return user.systemUserId ? user : JSON.parse(localStorage.getItem('user') || '{}') as User;
     };
 
     const getPermissions = () => {

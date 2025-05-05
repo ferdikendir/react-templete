@@ -9,11 +9,11 @@ const LoginPage = () => {
 
     const { login } = useAuth();
 
-    const [email, setEmail] = useState('fkendir');
+    const [email, setEmail] = useState('ferdi@ferdi.com');
 
     const [emailStatus, setEmailStatus] = useState<"" | "warning" | "error" | undefined>('');
 
-    const [password, setPassword] = useState('fkendir');
+    const [password, setPassword] = useState('123456');
 
     const [passwordStatus, setPasswordStatus] = useState<"" | "warning" | "error" | undefined>('');
 

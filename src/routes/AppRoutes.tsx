@@ -7,6 +7,7 @@ import Banks from '../pages/banks/Banks';
 import { AuthProvider } from '@providers';
 import { Layout } from '@layout';
 import { ProtectedRoute, PermittedRoute, AuthRoutes } from '@routes';
+import User from '../pages/user/User';
 
 
 const AppRoutes = () => {
@@ -39,6 +40,8 @@ const AppRoutes = () => {
                             <Route path='dashboard' element={<Dashboard />} />
 
                             <Route path='banks' element={<Banks />} />
+
+                            <Route path='users' element={<User />} />
 
 
                         </Route>

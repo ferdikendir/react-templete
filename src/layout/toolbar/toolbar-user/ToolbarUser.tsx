@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import * as Popover from '@radix-ui/react-popover';
 import './ToolbarUser.scss';
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +15,9 @@ export const ToolbarUser = () => {
 
     const user = getUser();
 
-    const userAvatar = user?.name.charAt(0).toUpperCase() + user?.lastName.charAt(0).toUpperCase();
+    const userAvatar = useMemo(() => {
+        return user?.name.charAt(0).toUpperCase() + user?.lastName.charAt(0).toUpperCase()
+    }, [user]);
 
     const toolbarItems = [
         {

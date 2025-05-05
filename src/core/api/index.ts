@@ -1,3 +1,5 @@
+export * from './api.model';
+
 export * from './account';
 
 export * from './auth';

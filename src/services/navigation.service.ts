@@ -7,8 +7,8 @@ export class NavigaionService {
             icon: 'ic:twotone-dashboard'
         },
         {
-            name: 'Banks', path: '/banks',
-            icon: 'emojione-monotone:bank'
+            name: 'User', path: '/users',
+            icon: 'mdi:users'
         },
         {
             name: 'Contact', path: '/contact',
