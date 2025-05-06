@@ -11,6 +11,10 @@ export class NavigaionService {
             icon: 'mdi:users'
         },
         {
+            name: 'Department', path: '/departments',
+            icon: 'mdi:account-group'
+        },
+        {
             name: 'Contact', path: '/contact',
             icon: 'carbon:home'
         },

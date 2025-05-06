@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 export interface BaseResponse {
     success: boolean;
     errorCode: string;
@@ -14,4 +16,10 @@ export interface ResultMessage {
     message: string;
     messageType: string;
     code: string;
+}
+
+export interface AuthModel {
+    token: string;
+    refreshToken: string;
+    user: User;
 }

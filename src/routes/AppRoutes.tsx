@@ -8,6 +8,7 @@ import { AuthProvider } from '@providers';
 import { Layout } from '@layout';
 import { ProtectedRoute, PermittedRoute, AuthRoutes } from '@routes';
 import User from '../pages/user/User';
+import Department from '../pages/department/Department';
 
 
 const AppRoutes = () => {
@@ -42,6 +43,8 @@ const AppRoutes = () => {
                             <Route path='banks' element={<Banks />} />
 
                             <Route path='users' element={<User />} />
+
+                            <Route path='departments' element={<Department />} />
 
 
                         </Route>

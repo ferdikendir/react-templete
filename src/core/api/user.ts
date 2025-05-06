@@ -1,3 +1,5 @@
+import { Department } from "./department";
+
 export interface User {
     systemUserId: string;
     email: string;
@@ -6,7 +8,6 @@ export interface User {
     displayName?: string;
     permissions: number[];
     username: string;
-
-    token?: string;
-    refreshToken?: string;
+    departmentId: string;
+    department: Department;
 }

@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
-import { User, Response } from '@core/api';
+import { AuthModel, Response, User } from '@core/api';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '@contexts';
 
@@ -58,15 +58,15 @@ export const AuthProvider: React.FC<CustomProviderProps> = ({ children }) => {
                     'Accept': 'application/json',
                 },
             }).then(res => res.json())
-                .then((response: Response<User>) => {
+                .then((response: Response<AuthModel>) => {
 
                     if (!response.success) {
                         alert(response.resultMessage.message);
                         return;
                     }
 
-                    setUser(response.data);
-                    setPermissions(response.data.permissions);
+                    setUser(response.data.user);
+                    setPermissions(response.data.user.permissions);
 
                     if (response.data.token) {
                         setToken(response.data.token);

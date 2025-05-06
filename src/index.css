@@ -64,3 +64,8 @@ p {
     background-color: var(--background-card) !important;
     color: var(--text-color) !important;
 }
+
+.ant-spin-nested-loading {
+    height: 100% !important;
+    width: 100% !important;
+}
