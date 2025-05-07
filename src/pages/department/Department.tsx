@@ -63,6 +63,7 @@ const Department = () => {
                     </Tooltip>
                 </div>
             </div>
+
             <Table<DepartmentModel> columns={columns} dataSource={departments} />
 
             {openForm && <DepartmentForm onClose={() => setOpenForm(false)} openForm={openForm} refreshList={() => setLoadDepartments(true)} />}

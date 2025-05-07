@@ -9,12 +9,31 @@ import { Layout } from '@layout';
 import { ProtectedRoute, PermittedRoute, AuthRoutes } from '@routes';
 import User from '../pages/user/User';
 import Department from '../pages/department/Department';
+import { message as antMessage } from 'antd';
+import { useMessage } from '@hooks';
+import { useEffect } from 'react';
 
 
 const AppRoutes = () => {
 
+    const { message } = useMessage();
+
+    const [messageApi, contextHolder] = antMessage.useMessage();
+
+    useEffect(() => {
+
+        if (!message) return;
+
+        messageApi.open({
+            type: message.type,
+            content: message.content
+        });
+    }, [message]);
+
     return (
         <Router>
+
+            {contextHolder}
 
             <AuthProvider>
 

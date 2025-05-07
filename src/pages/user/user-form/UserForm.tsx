@@ -1,7 +1,8 @@
-import { User } from "@core/api";
+import { User, Response, Department } from "@core/api";
+import { useMessage } from "@hooks";
 import { API } from "@services";
-import { Button, Form, Input, Modal, Select } from "antd";
-import { useState } from "react";
+import { Button, Form, Input, Modal, Select, Skeleton } from "antd";
+import { useEffect, useState } from "react";
 
 interface UserFormProps {
     openForm: boolean;
@@ -23,16 +24,13 @@ const UserForm = ({ onClose, openForm, refreshList }: UserFormProps) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(openForm);
+    const [departments, setDepartments] = useState<Department[]>([]);
 
-    const showLoading = () => {
-        setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-        }, 3000);
-    };
+    const { handleMessage } = useMessage();
 
     const onSubmit = async (values: FieldType) => {
 
+        setLoading(true);
         const request: Partial<User> = {
             name: values.name.toLocaleUpperCase(),
             lastName: values.lastName.toLocaleUpperCase(),
@@ -48,18 +46,35 @@ const UserForm = ({ onClose, openForm, refreshList }: UserFormProps) => {
                 setOpen(false);
                 onClose();
                 refreshList();
+                handleMessage({ type: 'success', content: data.resultMessage.message });
+            } else {
+                handleMessage({ type: 'error', content: data.resultMessage.message });
             }
 
         } catch (error) {
             console.error('API error:', error);
+        } finally {
+            setLoading(false);
         }
     };
+
+    useEffect(() => {
+        const loadDepartmens = async () => {
+
+            const { data } = await API.post<Response<Department[]>>('/department/list');
+
+            if (data.success) {
+                setDepartments(data.data);
+            }
+        };
+
+        loadDepartmens();
+    }, []);
 
     return (
         <Modal
             title={<p>User Detail</p>}
             footer={null}
-            loading={loading}
             open={open}
             onCancel={() => { setOpen(false); onClose() }}
         >
@@ -70,37 +85,56 @@ const UserForm = ({ onClose, openForm, refreshList }: UserFormProps) => {
                 layout="horizontal"
                 style={{ width: '100%' }}
                 onFinish={onSubmit}
+                autoComplete="off"
             >
 
                 <Form.Item label="Name" name="name" rules={[{ required: true, message: 'Please input your name!' }]} >
-                    <Input />
+
+                    {loading && <Skeleton.Input active={true} size={'small'} className="w-full" style={{ width: '100%' }} />}
+
+                    {!loading && <Input />}
+
                 </Form.Item>
 
 
                 <Form.Item label="Lastname" name="lastName" rules={[{ required: true, message: 'Please input your lastname!' }]}>
-                    <Input />
+
+                    {loading && <Skeleton.Input active={true} size={'small'} className="w-full" style={{ width: '100%' }} />}
+
+                    {!loading && <Input />}
+
                 </Form.Item>
 
                 <Form.Item label="Email" name="email" rules={[{ required: true, message: 'Please input your email!' }]}>
-                    <Input />
+
+                    {loading && <Skeleton.Input active={true} size={'small'} className="w-full" style={{ width: '100%' }} />}
+
+                    {!loading && <Input />}
+
                 </Form.Item>
 
                 <Form.Item label="Department" name="departmentId" rules={[{ required: true, message: 'Please input your department!' }]}>
-                    <Select
+
+                    {loading && <Skeleton.Input active={true} size={'small'} className="w-full" style={{ width: '100%' }} />}
+
+                    {!loading && <Select
                         style={{ width: '100%' }}
-                        options={[
-                            { value: '3d8a4aad-d581-4c5a-afdb-b14e21314394', label: 'Jack' },
-                            { value: '3d8a4aad-d581-4c5a-afdb-b14e21314394', label: 'Lucy' },
-                            { value: 'Yiminghe', label: 'yiminghe' },
-                            { value: 'disabled', label: 'Disabled', disabled: true },
-                        ]}
-                    />
+                        options={departments.map((department) => ({
+                            value: department.departmentId,
+                            label: department.name,
+                        }))}
+                    />}
+
                 </Form.Item>
 
                 <Form.Item label={null}>
-                    <Button type="primary" htmlType="submit">
+
+                    {loading && <Skeleton.Button active={true} size={'small'} shape={'square'} block={true} style={{ width: '100px' }} />}
+
+                    {!loading && <Button type="primary" htmlType="submit">
                         Submit
-                    </Button>
+                    </Button>}
+
                 </Form.Item>
 
 

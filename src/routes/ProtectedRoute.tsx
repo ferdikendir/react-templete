@@ -15,7 +15,7 @@ const ProtectedRoute = () => {
     }, [location]);
 
 
-    if (getUser()?.userId || token) {
+    if (getUser()?.systemUserId || token) {
         return <Outlet />;
     } else {
 

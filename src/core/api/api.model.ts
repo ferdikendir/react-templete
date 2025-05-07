@@ -1,3 +1,4 @@
+import { NoticeType } from "antd/es/message/interface";
 import { User } from "./user";
 
 export interface BaseResponse {
@@ -22,4 +23,9 @@ export interface AuthModel {
     token: string;
     refreshToken: string;
     user: User;
+}
+
+export interface MessageModel {
+    content: string;
+    type: NoticeType;
 }

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import './App.scss'
 import { AppRoutes } from '@routes';
+import { MessageProvider } from '@providers';
 
 function App() {
 
@@ -26,7 +27,11 @@ function App() {
 
   useLocalStorageListener();
 
-  return <AppRoutes />
+  return (
+    <MessageProvider>
+      <AppRoutes />
+    </MessageProvider>
+  );
 }
 
 export default App
